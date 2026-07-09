@@ -23,7 +23,7 @@
                     <th>Deadline</th>
                     <th>Status</th>
                     <th>Created By</th>
-                    <th style="width: 200px;">Actions</th>
+                    <th style="width: 260px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +40,7 @@
                         <td>
                             <a href="{{ route('scholarships.show', $scholarship) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('scholarships.edit', $scholarship) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('criteria.index', $scholarship) }}" class="btn btn-primary btn-sm">Criteria</a>
                             <form action="{{ route('scholarships.destroy', $scholarship) }}" method="POST" class="d-inline"
                                   onsubmit="return confirm('Are you sure you want to delete this scholarship?');">
                                 @csrf

@@ -7,6 +7,7 @@ use App\Http\Controllers\ApplicantDashboardController;
 use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\EvaluationCriteriaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +30,10 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::resource('scholarships', ScholarshipController::class);
+
+    Route::get('/scholarships/{scholarship}/criteria', [EvaluationCriteriaController::class, 'index'])->name('criteria.index');
+    Route::post('/scholarships/{scholarship}/criteria', [EvaluationCriteriaController::class, 'store'])->name('criteria.store');
+    Route::delete('/scholarships/{scholarship}/criteria/{criteria}', [EvaluationCriteriaController::class, 'destroy'])->name('criteria.destroy');
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
