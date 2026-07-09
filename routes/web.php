@@ -8,6 +8,7 @@ use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\EvaluationCriteriaController;
+use App\Http\Controllers\ReviewerAssignmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +35,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/scholarships/{scholarship}/criteria', [EvaluationCriteriaController::class, 'index'])->name('criteria.index');
     Route::post('/scholarships/{scholarship}/criteria', [EvaluationCriteriaController::class, 'store'])->name('criteria.store');
     Route::delete('/scholarships/{scholarship}/criteria/{criteria}', [EvaluationCriteriaController::class, 'destroy'])->name('criteria.destroy');
+
+    Route::get('/assignments', [ReviewerAssignmentController::class, 'index'])->name('assignments.index');
+    Route::post('/assignments', [ReviewerAssignmentController::class, 'store'])->name('assignments.store');
+    Route::delete('/assignments/{assignment}', [ReviewerAssignmentController::class, 'destroy'])->name('assignments.destroy');
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
