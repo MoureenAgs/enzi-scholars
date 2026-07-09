@@ -10,5 +10,7 @@
         <p>This is a placeholder. Your scholarship applications and status will appear here in later modules.</p>
 
         <a href="{{ route('applicant.profile.edit') }}" class="btn btn-primary mt-2">Edit My Profile</a>
+        <a href="{{ route('applicant.applications.index') }}" class="btn btn-success mt-2">Browse Scholarships</a>
+        <a href="{{ route('applicant.applications.my') }}" class="btn btn-info mt-2">My Applications</a>
     </div>
 </x-app-layout>

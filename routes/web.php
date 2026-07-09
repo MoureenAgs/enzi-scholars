@@ -6,6 +6,7 @@ use App\Http\Controllers\ReviewerDashboardController;
 use App\Http\Controllers\ApplicantDashboardController;
 use App\Http\Controllers\ScholarshipController;
 use App\Http\Controllers\ApplicantProfileController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -38,6 +39,10 @@ Route::middleware(['auth', 'verified', 'role:applicant'])->group(function () {
     Route::get('/applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
     Route::get('/applicant/profile', [ApplicantProfileController::class, 'edit'])->name('applicant.profile.edit');
     Route::put('/applicant/profile', [ApplicantProfileController::class, 'update'])->name('applicant.profile.update');
+
+    Route::get('/applicant/scholarships', [ApplicationController::class, 'index'])->name('applicant.applications.index');
+    Route::post('/applicant/applications', [ApplicationController::class, 'store'])->name('applicant.applications.store');
+    Route::get('/applicant/my-applications', [ApplicationController::class, 'myApplications'])->name('applicant.applications.my');
 });
 
 Route::middleware('auth')->group(function () {
