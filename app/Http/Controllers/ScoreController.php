@@ -81,6 +81,9 @@ class ScoreController extends Controller
         // Recalculate the application's overall weighted total score
         $this->recalculateTotalScore($application);
 
+        // Recompute rankings for all applicants to this same scholarship
+        $this->recalculateRankings($application->scholarship_id);
+
         return redirect()
             ->route('reviewer.scores.index')
             ->with('success', 'Scores submitted successfully.');
@@ -119,5 +122,21 @@ class ScoreController extends Controller
         $finalScore = array_sum($reviewerTotals) / count($reviewerTotals);
 
         $application->update(['total_score' => round($finalScore, 2)]);
+    }
+
+    /**
+     * Rank all applications for a given scholarship by total_score, descending.
+     * Applications with no score yet are left unranked (null).
+     */
+    protected function recalculateRankings(int $scholarshipId): void
+    {
+        $applications = ScholarshipApplication::where('scholarship_id', $scholarshipId)
+            ->whereNotNull('total_score')
+            ->orderByDesc('total_score')
+            ->get();
+
+        foreach ($applications as $index => $application) {
+            $application->update(['rank' => $index + 1]);
+        }
     }
 }
