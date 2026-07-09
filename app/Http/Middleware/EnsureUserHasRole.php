@@ -10,11 +10,14 @@ class EnsureUserHasRole
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
+     * Usage in routes: ->middleware('role:admin') or ->middleware('role:admin,reviewer')
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
+        if (!$request->user() || !in_array($request->user()->role, $roles)) {
+            abort(403, 'You do not have permission to access this page.');
+        }
+
         return $next($request);
     }
 }
