@@ -10,6 +10,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\EvaluationCriteriaController;
 use App\Http\Controllers\ReviewerAssignmentController;
 use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\ApplicationDecisionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,6 +41,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/assignments', [ReviewerAssignmentController::class, 'index'])->name('assignments.index');
     Route::post('/assignments', [ReviewerAssignmentController::class, 'store'])->name('assignments.store');
     Route::delete('/assignments/{assignment}', [ReviewerAssignmentController::class, 'destroy'])->name('assignments.destroy');
+
+    Route::get('/decisions', [ApplicationDecisionController::class, 'selectScholarship'])->name('decisions.select');
+    Route::get('/decisions/{scholarship}', [ApplicationDecisionController::class, 'index'])->name('decisions.index');
+    Route::post('/decisions/{application}', [ApplicationDecisionController::class, 'store'])->name('decisions.store');
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {

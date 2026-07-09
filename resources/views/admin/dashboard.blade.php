@@ -11,5 +11,6 @@
 
         <a href="{{ route('scholarships.index') }}" class="btn btn-primary mt-2">Manage Scholarships</a>
         <a href="{{ route('assignments.index') }}" class="btn btn-success mt-2">Reviewer Assignments</a>
+        <a href="{{ route('decisions.select') }}" class="btn btn-warning mt-2">Rankings &amp; Decisions</a>
     </div>
 </x-app-layout>
