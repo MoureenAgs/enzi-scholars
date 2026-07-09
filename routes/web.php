@@ -9,6 +9,7 @@ use App\Http\Controllers\ApplicantProfileController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\EvaluationCriteriaController;
 use App\Http\Controllers\ReviewerAssignmentController;
+use App\Http\Controllers\ScoreController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,6 +44,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
     Route::get('/reviewer/dashboard', [ReviewerDashboardController::class, 'index'])->name('reviewer.dashboard');
+    Route::get('/reviewer/scores', [ScoreController::class, 'index'])->name('reviewer.scores.index');
+    Route::get('/reviewer/applications/{application}/score', [ScoreController::class, 'create'])->name('reviewer.scores.create');
+    Route::post('/reviewer/applications/{application}/score', [ScoreController::class, 'store'])->name('reviewer.scores.store');
 });
 
 Route::middleware(['auth', 'verified', 'role:applicant'])->group(function () {

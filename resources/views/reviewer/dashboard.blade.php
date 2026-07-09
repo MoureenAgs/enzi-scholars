@@ -8,5 +8,7 @@
             Welcome, {{ auth()->user()->name }} — you are logged in as <strong>Reviewer</strong>.
         </div>
         <p>This is a placeholder. Your assigned applications and scoring forms will appear here in later modules.</p>
+
+        <a href="{{ route('reviewer.scores.index') }}" class="btn btn-primary mt-2">My Assigned Applications</a>
     </div>
 </x-app-layout>
