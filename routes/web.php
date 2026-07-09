@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ReviewerDashboardController;
 use App\Http\Controllers\ApplicantDashboardController;
 use App\Http\Controllers\ScholarshipController;
+use App\Http\Controllers\ApplicantProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,8 @@ Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:applicant'])->group(function () {
     Route::get('/applicant/dashboard', [ApplicantDashboardController::class, 'index'])->name('applicant.dashboard');
+    Route::get('/applicant/profile', [ApplicantProfileController::class, 'edit'])->name('applicant.profile.edit');
+    Route::put('/applicant/profile', [ApplicantProfileController::class, 'update'])->name('applicant.profile.update');
 });
 
 Route::middleware('auth')->group(function () {

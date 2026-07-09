@@ -8,5 +8,7 @@
             Welcome, {{ auth()->user()->name }} — you are logged in as <strong>Applicant</strong>.
         </div>
         <p>This is a placeholder. Your scholarship applications and status will appear here in later modules.</p>
+
+        <a href="{{ route('applicant.profile.edit') }}" class="btn btn-primary mt-2">Edit My Profile</a>
     </div>
 </x-app-layout>
