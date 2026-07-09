@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ReviewerDashboardController;
 use App\Http\Controllers\ApplicantDashboardController;
+use App\Http\Controllers\ScholarshipController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,7 @@ Route::get('/dashboard', function () {
 // Role-specific dashboard routes, each protected by both auth and role middleware
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::resource('scholarships', ScholarshipController::class);
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
