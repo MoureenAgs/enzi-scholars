@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Scholarship;
 use App\Http\Requests\StoreScholarshipRequest;
 use App\Http\Requests\UpdateScholarshipRequest;
+use Illuminate\Http\Request;
 
 class ScholarshipController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $scholarships = Scholarship::with('creator')
+            ->when($request->search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%");
+            })
+            ->when($request->status, function ($query, $status) {
+                $query->where('status', $status);
+            })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admin.scholarships.index', compact('scholarships'));
     }

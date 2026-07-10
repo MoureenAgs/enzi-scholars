@@ -16,6 +16,24 @@
             </div>
         @endif
 
+        <form method="GET" action="{{ route('scholarships.index') }}" class="row g-2 mb-3">
+            <div class="col-md-6">
+                <input type="text" name="search" value="{{ request('search') }}"
+                       class="form-control" placeholder="Search by title...">
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">All Statuses</option>
+                    <option value="draft" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                    <option value="open" {{ request('status') === 'open' ? 'selected' : '' }}>Open</option>
+                    <option value="closed" {{ request('status') === 'closed' ? 'selected' : '' }}>Closed</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-secondary w-100">Filter</button>
+            </div>
+        </form>
+
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -51,7 +69,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">No scholarships found. Create your first one above.</td>
+                        <td colspan="5" class="text-center">No scholarships found matching your criteria.</td>
                     </tr>
                 @endforelse
             </tbody>
