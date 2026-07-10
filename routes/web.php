@@ -13,6 +13,7 @@ use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\ApplicationDecisionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -49,6 +50,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::post('/decisions/{application}', [ApplicationDecisionController::class, 'store'])->name('decisions.store');
 
     Route::get('/logs', [ActivityLogController::class, 'index'])->name('logs.index');
+
+    Route::get('/scholarships/{scholarship}/report', [ReportController::class, 'rankingReport'])->name('reports.ranking');
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {

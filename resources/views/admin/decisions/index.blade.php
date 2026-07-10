@@ -1,6 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="fw-bold fs-4">Rankings — {{ $scholarship->title }}</h2>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold fs-4">Rankings — {{ $scholarship->title }}</h2>
+            <a href="{{ route('reports.ranking', $scholarship) }}" class="btn btn-dark btn-sm">
+                Download PDF Report
+            </a>
+        </div>
     </x-slot>
 
     <div class="container py-4">
