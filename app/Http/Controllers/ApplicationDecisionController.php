@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Scholarship;
 use App\Models\ScholarshipApplication;
 use App\Models\ApplicationDecision;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class ApplicationDecisionController extends Controller
@@ -53,6 +54,13 @@ class ApplicationDecisionController extends Controller
         $application->update(['status' => $validated['decision']]);
 
         activity_log($validated['decision'] . ' application', $application);
+
+        // Notify the applicant of the decision
+        Notification::create([
+            'user_id' => $application->applicant_id,
+            'message' => "Your application for \"{$application->scholarship->title}\" has been {$validated['decision']}.",
+            'is_read' => false,
+        ]);
 
         return back()->with('success', 'Decision recorded successfully.');
     }

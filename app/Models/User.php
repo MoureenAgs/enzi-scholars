@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(Scholarship::class, 'created_by');
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
     // Applications submitted by this user (if applicant)
     public function applications()
     {
