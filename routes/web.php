@@ -12,6 +12,7 @@ use App\Http\Controllers\ReviewerAssignmentController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\ApplicationDecisionController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,6 +47,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/decisions', [ApplicationDecisionController::class, 'selectScholarship'])->name('decisions.select');
     Route::get('/decisions/{scholarship}', [ApplicationDecisionController::class, 'index'])->name('decisions.index');
     Route::post('/decisions/{application}', [ApplicationDecisionController::class, 'store'])->name('decisions.store');
+
+    Route::get('/logs', [ActivityLogController::class, 'index'])->name('logs.index');
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
