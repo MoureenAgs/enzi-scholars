@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ScholarshipApplication;
 use App\Models\ReviewerAssignment;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class ReviewerAssignmentController extends Controller
@@ -52,6 +53,13 @@ class ReviewerAssignmentController extends Controller
         }
 
         activity_log('assigned reviewer', $assignment);
+
+        // Notify the reviewer they have a new application to review
+        Notification::create([
+            'user_id' => $validated['reviewer_id'],
+            'message' => "You have been assigned to review an application for \"{$application->scholarship->title}\".",
+            'is_read' => false,
+        ]);
 
         return back()->with('success', 'Reviewer assigned successfully.');
     }

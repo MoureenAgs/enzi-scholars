@@ -67,7 +67,5 @@
                 @endforelse
             </tbody>
         </table>
-
-        <a href="{{ route('reviewer.scores.index') }}" class="btn btn-primary mt-2">Go to Scoring Page</a>
     </div>
 </x-app-layout>

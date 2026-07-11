@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ScholarshipApplication;
 use App\Models\Score;
+use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class ScoreController extends Controller
@@ -83,6 +85,16 @@ class ScoreController extends Controller
 
         // Recompute rankings for all applicants to this same scholarship
         $this->recalculateRankings($application->scholarship_id);
+
+        // Notify all admins that a review has been completed
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id' => $admin->id,
+                'message' => auth()->user()->name . " completed a review for \"{$application->scholarship->title}\" (applicant: {$application->applicant->name}).",
+                'is_read' => false,
+            ]);
+        }
 
         return redirect()
             ->route('reviewer.scores.index')

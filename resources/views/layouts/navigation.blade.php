@@ -17,6 +17,55 @@
                         Dashboard
                     </a>
                 </li>
+
+                @if (auth()->user()->isAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('scholarships.*') ? 'active fw-semibold' : '' }}" href="{{ route('scholarships.index') }}">
+                            Scholarships
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('assignments.*') ? 'active fw-semibold' : '' }}" href="{{ route('assignments.index') }}">
+                            Assignments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('decisions.*') ? 'active fw-semibold' : '' }}" href="{{ route('decisions.select') }}">
+                            Rankings &amp; Decisions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('logs.*') ? 'active fw-semibold' : '' }}" href="{{ route('logs.index') }}">
+                            Activity Log
+                        </a>
+                    </li>
+                @endif
+
+                @if (auth()->user()->isReviewer())
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('reviewer.scores.*') ? 'active fw-semibold' : '' }}" href="{{ route('reviewer.scores.index') }}">
+                            Assigned Applications
+                        </a>
+                    </li>
+                @endif
+
+                @if (auth()->user()->isApplicant())
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('applicant.profile.*') ? 'active fw-semibold' : '' }}" href="{{ route('applicant.profile.edit') }}">
+                            My Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('applicant.applications.index') ? 'active fw-semibold' : '' }}" href="{{ route('applicant.applications.index') }}">
+                            Browse Scholarships
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('applicant.applications.my') ? 'active fw-semibold' : '' }}" href="{{ route('applicant.applications.my') }}">
+                            My Applications
+                        </a>
+                    </li>
+                @endif
             </ul>
 
             <ul class="navbar-nav align-items-lg-center gap-lg-2">
