@@ -35,6 +35,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('users.*') ? 'active fw-semibold' : '' }}" href="{{ route('users.index') }}">
+                            Manage Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('logs.*') ? 'active fw-semibold' : '' }}" href="{{ route('logs.index') }}">
                             Activity Log
                         </a>

@@ -14,6 +14,7 @@ use App\Http\Controllers\ApplicationDecisionController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -52,6 +53,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/logs', [ActivityLogController::class, 'index'])->name('logs.index');
 
     Route::get('/scholarships/{scholarship}/report', [ReportController::class, 'rankingReport'])->name('reports.ranking');
+
+    Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
+    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 });
 
 Route::middleware(['auth', 'verified', 'role:reviewer'])->group(function () {
