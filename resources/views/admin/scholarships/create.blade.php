@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('scholarships.store') }}" method="POST">
+        <form action="{{ route('scholarships.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -45,6 +45,12 @@
                     <option value="open" {{ old('status') === 'open' ? 'selected' : '' }}>Open</option>
                     <option value="closed" {{ old('status') === 'closed' ? 'selected' : '' }}>Closed</option>
                 </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Application Form Template (optional)</label>
+                <input type="file" name="application_form" class="form-control" accept=".pdf,.doc,.docx">
+                <small class="text-muted">Upload a blank application form (PDF or Word) that applicants can download and fill out. Max 5MB.</small>
             </div>
 
             <button type="submit" class="btn btn-primary">Create Scholarship</button>

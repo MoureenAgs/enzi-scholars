@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('scholarships.update', $scholarship) }}" method="POST">
+        <form action="{{ route('scholarships.update', $scholarship) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -48,6 +48,23 @@
                     <option value="open" {{ old('status', $scholarship->status) === 'open' ? 'selected' : '' }}>Open</option>
                     <option value="closed" {{ old('status', $scholarship->status) === 'closed' ? 'selected' : '' }}>Closed</option>
                 </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Application Form Template</label>
+
+                @if ($scholarship->application_form_path)
+                    <div class="mb-2">
+                        <a href="{{ route('scholarships.downloadForm', $scholarship) }}" class="btn btn-outline-secondary btn-sm">
+                            📄 Download Current Form
+                        </a>
+                    </div>
+                @else
+                    <div class="text-muted small mb-2">No application form uploaded yet.</div>
+                @endif
+
+                <input type="file" name="application_form" class="form-control" accept=".pdf,.doc,.docx">
+                <small class="text-muted">Upload a new file to replace the current one. Leave blank to keep the existing form. Max 5MB.</small>
             </div>
 
             <button type="submit" class="btn btn-primary">Update Scholarship</button>

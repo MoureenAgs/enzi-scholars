@@ -15,15 +15,21 @@ class StoreApplicationRequest extends FormRequest
     {
         return [
             'scholarship_id' => ['required', 'exists:scholarships,id'],
-            'document' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'], // 5MB max
+            'application_form' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+            'birth_certificate' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+            'acceptance_letter' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+            'recommendation_letter' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+            'passport_photo' => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'document.mimes' => 'The document must be a PDF, JPG, or PNG file.',
-            'document.max' => 'The document must not exceed 5MB.',
+            '*.mimes' => 'Please upload a valid file type (PDF, JPG, or PNG).',
+            'passport_photo.mimes' => 'The passport photo must be a JPG or PNG image.',
+            '*.max' => 'The file must not exceed the maximum allowed size.',
+            '*.required' => 'This document is required to submit your application.',
         ];
     }
 }

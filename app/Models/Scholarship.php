@@ -16,6 +16,7 @@ class Scholarship extends Model
         'application_deadline',
         'status',
         'created_by',
+        'application_form_path',
     ];
 
     protected function casts(): array

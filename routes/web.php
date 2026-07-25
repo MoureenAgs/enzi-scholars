@@ -77,6 +77,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAllRead'])->name('notifications.markRead');
+
+    // Accessible to any authenticated user (admin previewing, or applicant downloading to fill out)
+    Route::get('/scholarships/{scholarship}/download-form', [ScholarshipController::class, 'downloadForm'])->name('scholarships.downloadForm');
 });
 
 require __DIR__.'/auth.php';

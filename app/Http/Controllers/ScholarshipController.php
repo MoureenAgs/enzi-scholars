@@ -6,6 +6,7 @@ use App\Models\Scholarship;
 use App\Http\Requests\StoreScholarshipRequest;
 use App\Http\Requests\UpdateScholarshipRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ScholarshipController extends Controller
 {
@@ -35,6 +36,10 @@ class ScholarshipController extends Controller
         $validated = $request->validated();
         $validated['created_by'] = auth()->id();
 
+        if ($request->hasFile('application_form')) {
+            $validated['application_form_path'] = $request->file('application_form')->store('scholarship_forms', 'local');
+        }
+
         $scholarship = Scholarship::create($validated);
 
         activity_log('created scholarship', $scholarship);
@@ -58,7 +63,17 @@ class ScholarshipController extends Controller
 
     public function update(UpdateScholarshipRequest $request, Scholarship $scholarship)
     {
-        $scholarship->update($request->validated());
+        $validated = $request->validated();
+
+        if ($request->hasFile('application_form')) {
+            // Remove the old file if one existed, to avoid orphaned files piling up
+            if ($scholarship->application_form_path) {
+                Storage::disk('local')->delete($scholarship->application_form_path);
+            }
+            $validated['application_form_path'] = $request->file('application_form')->store('scholarship_forms', 'local');
+        }
+
+        $scholarship->update($validated);
 
         activity_log('updated scholarship', $scholarship);
 
@@ -76,5 +91,20 @@ class ScholarshipController extends Controller
         return redirect()
             ->route('scholarships.index')
             ->with('success', 'Scholarship deleted successfully.');
+    }
+
+    /**
+     * Let an authenticated user (admin or applicant) download the scholarship's application form template.
+     */
+    public function downloadForm(Scholarship $scholarship)
+    {
+        if (!$scholarship->application_form_path) {
+            abort(404, 'No application form has been uploaded for this scholarship.');
+        }
+
+        return Storage::disk('local')->download(
+            $scholarship->application_form_path,
+            str($scholarship->title)->slug() . '-application-form.' . pathinfo($scholarship->application_form_path, PATHINFO_EXTENSION)
+        );
     }
 }

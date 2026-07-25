@@ -10,6 +10,17 @@ use App\Http\Requests\StoreApplicationRequest;
 class ApplicationController extends Controller
 {
     /**
+     * Document types this system requires per application, mapped to their form field names.
+     */
+    protected array $documentTypes = [
+        'application_form' => 'Application Form',
+        'birth_certificate' => 'Birth Certificate',
+        'acceptance_letter' => 'Letter of Acceptance',
+        'recommendation_letter' => 'Recommendation Letter',
+        'passport_photo' => 'Passport Photo',
+    ];
+
+    /**
      * Show all currently open scholarships available to apply to.
      */
     public function index()
@@ -61,16 +72,18 @@ class ApplicationController extends Controller
             'submitted_at' => now(),
         ]);
 
-        // Store the uploaded file
-        $file = $request->file('document');
-        $path = $file->store('application_documents', 'local');
+        // Store each of the 5 required documents
+        foreach ($this->documentTypes as $fieldName => $label) {
+            $file = $request->file($fieldName);
+            $path = $file->store('application_documents', 'local');
 
-        ApplicationDocument::create([
-            'application_id' => $application->id,
-            'document_type' => 'supporting_document',
-            'file_path' => $path,
-            'original_filename' => $file->getClientOriginalName(),
-        ]);
+            ApplicationDocument::create([
+                'application_id' => $application->id,
+                'document_type' => $fieldName,
+                'file_path' => $path,
+                'original_filename' => $file->getClientOriginalName(),
+            ]);
+        }
 
         activity_log('submitted application', $application);
 

@@ -19,6 +19,7 @@ class UpdateScholarshipRequest extends FormRequest
             'eligibility_criteria' => ['nullable', 'string'],
             'application_deadline' => ['required', 'date'],
             'status' => ['required', 'in:draft,open,closed'],
+            'application_form' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
         ];
     }
 }

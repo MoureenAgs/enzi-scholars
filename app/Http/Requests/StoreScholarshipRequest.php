@@ -20,6 +20,7 @@ class StoreScholarshipRequest extends FormRequest
             'eligibility_criteria' => ['nullable', 'string'],
             'application_deadline' => ['required', 'date', 'after:today'],
             'status' => ['required', 'in:draft,open,closed'],
+            'application_form' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
         ];
     }
 
@@ -27,6 +28,7 @@ class StoreScholarshipRequest extends FormRequest
     {
         return [
             'application_deadline.after' => 'The application deadline must be a future date.',
+            'application_form.mimes' => 'The application form must be a PDF or Word document.',
         ];
     }
 }
