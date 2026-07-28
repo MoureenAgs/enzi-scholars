@@ -22,6 +22,42 @@
             </div>
         </div>
 
+        <div class="card mb-4">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3" style="color: #2C7A78;">Submitted Documents</h6>
+
+                @php
+                    $docLabels = [
+                        'application_form' => 'Application Form',
+                        'birth_certificate' => 'Birth Certificate',
+                        'acceptance_letter' => 'Letter of Acceptance',
+                        'recommendation_letter' => 'Recommendation Letter',
+                        'passport_photo' => 'Passport Photo',
+                    ];
+                @endphp
+
+                @if ($application->documents->isEmpty())
+                    <p class="text-muted mb-0">No documents were uploaded with this application.</p>
+                @else
+                    <div class="row g-2">
+                        @foreach ($application->documents as $document)
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-center border rounded p-2">
+                                    <div>
+                                        <div class="fw-semibold small">{{ $docLabels[$document->document_type] ?? ucfirst(str_replace('_', ' ', $document->document_type)) }}</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">{{ $document->original_filename }}</div>
+                                    </div>
+                                    <a href="{{ route('documents.download', $document) }}" target="_blank" class="btn btn-outline-dark btn-sm">
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </div>
+
         <form action="{{ route('reviewer.scores.store', $application) }}" method="POST">
             @csrf
 

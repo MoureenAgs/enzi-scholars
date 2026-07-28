@@ -37,7 +37,7 @@ class ScoreController extends Controller
             abort(403, 'You are not assigned to review this application.');
         }
 
-        $application->load('scholarship.evaluationCriteria', 'applicant');
+        $application->load('scholarship.evaluationCriteria', 'applicant', 'documents');
 
         // Load this reviewer's existing scores for this application, if any (so the form pre-fills on re-visit)
         $existingScores = Score::where('application_id', $application->id)

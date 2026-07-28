@@ -15,6 +15,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\ApplicationDocumentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -86,6 +87,9 @@ Route::middleware('auth')->group(function () {
 
     // Accessible to any authenticated user (admin previewing, or applicant downloading to fill out)
     Route::get('/scholarships/{scholarship}/download-form', [ScholarshipController::class, 'downloadForm'])->name('scholarships.downloadForm');
+
+    // Document viewing: authorization is checked inside the controller (admin/assigned reviewer/owning applicant)
+    Route::get('/documents/{document}/download', [ApplicationDocumentController::class, 'download'])->name('documents.download');
 });
 
 require __DIR__.'/auth.php';
